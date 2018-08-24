@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+<f:view>
+    <ui:include src="/template/menu.xhtml"/>
+    <p:outputPanel rendered="#{!customerData.logged}">
+        <p:outputLabel value="Please login for create new product"/>
+    </p:outputPanel>
+    <p:outputPanel rendered="#{customerData.logged}">
+        <h:form id="shoppingCartForm">
+            <p:dataTable var="shoppingCartEntry" value="#{shoppingCartData.products}">
+                <p:column headerText="Image">
+                    <p:graphicImage stream="#{shoppingCartEntry.value.product.graphicImage}" cache="false" style="max-height: 30px; max-width: 30px"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <p:outputLabel value="#{shoppingCartEntry.value.product.name}"/>
+                </p:column>
+                <p:column headerText="Piece">
+                    <p:outputLabel value="#{shoppingCartEntry.value.count}"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="End Shopping" action="shopping-cart-end"/>
+        </h:form>
+    </p:outputPanel>
+</f:view>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+>
+<ui:composition>
+    <ui:include src="head.xhtml"/>
+    <h:body>
+        <h:form id="menuForm">
+            <p:menubar id="menu">
+                <p:menuitem icon="fa fa-home" url="${request.contextPath}/"/>
+                <p:submenu icon="fa fa-plus" label="New">
+                    <p:menuitem value="Product" url="${request.contextPath}/product/new.xhtml"/>
+                </p:submenu>
+                <p:submenu icon="fa fa-edit" label="Edit">
+                    <p:menuitem value="Product" url="${request.contextPath}/product/edit.xhtml"/>
+                </p:submenu>
+                <f:facet name="options">
+                    <p:outputPanel rendered="#{customerData.logged}">
+                        <p:button value="#{shoppingCartController.countShoppingCart()}" icon="fa fa-shopping-cart" href="#{request.contextPath}/shopping-cart/list.xhtml"/>
+                        <p:outputLabel value="#{customerData.customer.name} "/>
+                        <p:commandButton icon="fa fa-sign-out" immediate="true" ajax="false"
+                                         action="#{loginController.resetLogin}"/>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{!customerData.logged}">
+                        <p:button value="#{shoppingCartController.countShoppingCart()}" icon="fa fa-shopping-cart" href="#{request.contextPath}/shopping-cart/list.xhtml"/>
+                        <p:button icon="fa fa-sign-in" href="${request.contextPath}/login.xhtml"/>
+                        <p:button icon="fa fa-user" href="${request.contextPath}/registration.xhtml"/>
+                    </p:outputPanel>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </h:body>
+</ui:composition>
+</html>

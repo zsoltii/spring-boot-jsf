@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+>
+<ui:composition>
+    <h:body>
+        <p:messages autoUpdate="true" showSummary="true" showDetail="true"/>
+        <p:panelGrid>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Name" for="newProductName"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{productData.product.name}" required="true" id="newProductName"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Description" for="newProductDescription"/>
+                </p:column>
+                <p:column>
+                    <p:inputTextarea value="#{productData.product.description}" required="true"
+                                     id="newProductDescription"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Image" for="newProductImage"/>
+                </p:column>
+                <p:column>
+                    <p:fileUpload multiple="false" mode="advanced" skinSimple="true" auto="true" id="newProductImage"
+                                  value="#{productData.product.image}"
+                                  fileUploadListener="#{productController.imageUpload}"/>
+                </p:column>
+            </p:row>
+            <p:commandButton value="Save" update="@form" actionListener="#{productController.update()}"/>
+        </p:panelGrid>
+    </h:body>
+</ui:composition>
+</html>

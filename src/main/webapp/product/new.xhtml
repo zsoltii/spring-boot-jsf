@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+<f:metadata>
+    <f:viewAction action="#{productController.preNewProduct}"/>
+</f:metadata>
+<f:view>
+    <ui:include src="/template/menu.xhtml"/>
+    <p:outputPanel rendered="#{!customerData.logged}">
+        <p:outputLabel value="Please login for create new product"/>
+    </p:outputPanel>
+    <p:outputPanel rendered="#{customerData.logged}">
+        <h:form id="newProductForm">
+            <p:messages autoUpdate="true" showSummary="true" showDetail="true"/>
+            <p:panelGrid rendered="#{productData.product.id eq null}">
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Name" for="newProductName"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{productData.product.name}" required="true" id="newProductName"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Description" for="newProductDescription"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea value="#{productData.product.description}" required="true" id="newProductDescription"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="Image" for="newProductImage"/>
+                    </p:column>
+                    <p:column>
+                        <p:fileUpload multiple="false" mode="advanced" skinSimple="true" auto="true" id="newProductImage"
+                                      value="#{productData.product.image}" fileUploadListener="#{productController.imageUpload}"/>
+                    </p:column>
+                </p:row>
+                <p:commandButton value="Save" update="@form" rendered="#{productData.product.id eq null}" actionListener="#{productController.save}"/>
+            </p:panelGrid>
+            <p:button value="New Product" icon="fa fa-plus" href="new.xhtml" rendered="#{productData.product.id ne null}"/>
+        </h:form>
+    </p:outputPanel>
+</f:view>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+>
+<ui:composition>
+<h:body>
+    <p:dataTable var="product" value="#{productLazyDataModel}" paginator="true" rows="10"
+                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{productData.product}" id="productChooser"
+                 lazy="true">
+        <p:ajax event="rowSelect" update="@all"/>
+        <p:column headerText="Name">
+            <p:outputLabel value="#{product.name}"/>
+        </p:column>
+    </p:dataTable>
+</h:body>
+</ui:composition>
+</html>

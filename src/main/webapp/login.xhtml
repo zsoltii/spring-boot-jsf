@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewAction action="#{loginController.preLogin}"/>
+</f:metadata>
+<f:view>
+    <ui:include src="template/menu.xhtml"/>
+    <h:form id="loginForm">
+        <p:messages autoUpdate="true" showDetail="true" showSummary="true"/>
+        <p:panelGrid id="loginData" rendered="#{!customerData.logged}">
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Username" for="loginUsername"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{customerData.customer.username}" required="true"
+                                 id="loginUsername"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="Password" for="loginPassword"/>
+                </p:column>
+                <p:column>
+                    <p:password value="#{customerData.customer.password}" required="true"
+                                id="loginPassword"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        <p:commandButton value="Login" action="#{loginController.login}" rendered="#{!customerData.logged}" update="@form, menuForm:menu"/>
+    </h:form>
+</f:view>
+</html>

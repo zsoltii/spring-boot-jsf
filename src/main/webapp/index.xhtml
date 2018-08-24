@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <ui:include src="template/menu.xhtml"/>
+
+    <h:form id="productListForm">
+        <p:commandButton value="Start" action="shopping-cart"/>
+        <p:messages autoUpdate="true" showDetail="true" showSummary="true"/>
+        <p:dataGrid var="product" value="#{productLazyDataModel}" lazy="true" paginator="true"
+                    rows="12" columns="3" layout="grid"
+                    aginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="6,12,18">
+            <f:facet name="header">
+                Products
+            </f:facet>
+
+            <p:panel header="#{product.name}" style="text-align:center">
+                <h:panelGrid columns="1" style="width:100%" id="productGrid">
+                    <p:commandLink update="@(.productPanel)" oncomplete="PF('productInfo').show()" title="View #{product.name} details">
+                        <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                        <f:setPropertyActionListener value="#{product}" target="#{productData.product}" />
+                    </p:commandLink>
+                </h:panelGrid>
+            </p:panel>
+        </p:dataGrid>
+        <p:dialog header="Product Info" widgetVar="productInfo" id="productInfo">
+            <p:outputPanel id="productPanel" styleClass="productPanel">
+                <p:messages autoUpdate="true" showDetail="true" showSummary="true"/>
+                <p:panelGrid rendered="#{productData.product ne null}">
+                    <p:row rendered="#{productData.product ne null and productData.product.image ne null}">
+                        <p:column colspan="2">
+                            <p:graphicImage value="#{productController.image}" cache="false" style="max-width: 200px; max-height: 200px;"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Name"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{productData.product.name}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Description"/>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{productData.product.description}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton value="Add to Shopping Cart" action="#{shoppingCartController.addToShoppingCart}"
+                                 update="menuForm:menu" icon="fa fa-plus"/>
+            </p:outputPanel>
+        </p:dialog>
+    </h:form>
+</f:view>
+</html>
